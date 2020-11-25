@@ -13,6 +13,7 @@ public class Rubiks : MonoBehaviour
     private readonly List<GameObject> _selectedCubes = new List<GameObject>();
     private bool _isRotating;
     private float _rotateDirection;
+    private int _turnCount;
     private float _currentRotation;
 
     // Start is called before the first frame update
@@ -33,6 +34,14 @@ public class Rubiks : MonoBehaviour
             RaycastHit hit;
             int item = _rand.Next(Positions.positions.Count);
             var nextPosition = Positions.positions[item];
+
+            do
+            {
+                item = _rand.Next(Positions.positions.Count);
+                nextPosition = Positions.positions[item];
+            } while (_turnCount == 3 && nextPosition.Equals(_currentPosition));
+            
+            
             var source = nextPosition.Source;
 
             // Raycast at each cube in the currently selected side to determine which cubes are being rotated
@@ -55,10 +64,12 @@ public class Rubiks : MonoBehaviour
                 {
                     _rotateDirection = _rand.Next(0, 2) == 0 ? -1f : 1f;
                     _currentPosition = nextPosition;
+                    _turnCount = 0;
                 }
                 
                 _isRotating = true;
                 _currentRotation = 0;
+                _turnCount++;
             }
         }
         else
