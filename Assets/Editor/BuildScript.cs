@@ -1,28 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-using static UnityEditor.BuildOptions;
-using static UnityEditor.BuildPipeline;
-using static UnityEditor.BuildTarget;
 
 public class BuildScript : MonoBehaviour
 {
+    [MenuItem("Build/Build All")]
     public static void BuildAll()
     {
-        
-        
-        Debug.Log(BuildPlayer(
+        Debug.Log(BuildPipeline.BuildPlayer(
             new[] {"Assets/Scenes/SampleScene.unity"},
             "Build/Mac/Rubiks.app",
-            StandaloneOSX,
-            None
+            BuildTarget.StandaloneOSX,
+            BuildOptions.None
         ));
-        
-        Debug.Log(BuildPlayer(
+
+        Debug.Log(BuildPipeline.BuildPlayer(
             new[] {"Assets/Scenes/SampleScene.unity"},
             "Build/Windows/Rubiks.exe",
-            StandaloneWindows64,
-            None
+            BuildTarget.StandaloneWindows64,
+            BuildOptions.None
+        ));
+
+        Debug.Log(BuildPipeline.BuildPlayer(
+            new[] {"Assets/Scenes/SampleScene.unity"},
+            "Build/Linux/Rubiks",
+            BuildTarget.StandaloneLinux64,
+            BuildOptions.None
+        ));
+        
+        Debug.Log(BuildPipeline.BuildPlayer(
+            new[] {"Assets/Scenes/SampleScene.unity"},
+            "Build/Web/Rubiks",
+            BuildTarget.WebGL,
+            BuildOptions.None
         ));
     }
 }
